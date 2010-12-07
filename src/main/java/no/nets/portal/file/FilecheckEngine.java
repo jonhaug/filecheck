@@ -67,7 +67,7 @@ public class FilecheckEngine {
 	private static class LBox {
 		LinkedList<EListener>[] listeners = (LinkedList<EListener>[]) new LinkedList[256];
 		public void add(EListener el) {
-			int b = el.top();
+			int b = (int)  el.top() & 0xFF;
 			if (listeners[b] == null) listeners[b] = new LinkedList<EListener>();
 			listeners[b].add(el);
 		}

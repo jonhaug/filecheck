@@ -5,11 +5,17 @@ public class ConstListener implements Listener {
 	protected byte[] bytes;
 	protected int count=0;
 	protected long last;
+	String name = null;
 
 	public ConstListener(byte[] bytes) {
 		this.bytes = bytes;
 	}
 	
+	public ConstListener(String s, byte[] barr) {
+		this.bytes = barr;
+		this.name=s;
+	}
+
 	@Override
 	public byte[] getBytes() {
 		return bytes;
