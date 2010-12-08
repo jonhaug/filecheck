@@ -9,20 +9,31 @@ public class CharSetListener {
 	public static String CHARS = "€©æøåÆØÅ½¾¡¦£$½¥{[]}¶¹²³¼‰¾‰⅝÷«»";
 	List<ConstListener> listeners = new ArrayList<ConstListener>();
 	String charSet;
+	
 	public CharSetListener(String charSet, FilecheckEngine engine) {
 		this.charSet=charSet;
 		for (char ch: CHARS.toCharArray()) {
 			String s = "" + ch;	
 			try {
 				byte[] barr = s.getBytes(charSet);
-				ConstListener cl = new ConstListener(s,barr);
-				listeners.add(cl);
-				engine.addListener(cl);
+				if (barr.length > 1 || barr[0] != 63) { // Question mark
+					ConstListener cl = new ConstListener(s,barr);
+					listeners.add(cl);
+					engine.addListener(cl);
+				}
 			} catch (UnsupportedEncodingException e) {
 				throw new RuntimeException("No such encoding: ", e);
 			}
 		}
 	}
+	public int getCount() {
+		int c=0;
+		for (ConstListener cl: listeners) {
+			c += cl.getCount();
+		}
+		return c;
+	}
+	public String getCharSet() { return charSet;}
 	public String toString() {
 		StringBuffer sb = new StringBuffer(charSet + "\n");
 		for (ConstListener listener: listeners) {
